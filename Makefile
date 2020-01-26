@@ -8,16 +8,17 @@ SITE_FOLDER = backend/web/sites/default
 install:
 	@(cd backend; composer install) \
 	&& echo "" \
+	&& make npm_install \
+	&& (cd infrastructure/${ENVIRONMENT}; docker-compose up -d) \
 	&& make -s setup_files_folder \
-	&& make -s db_import
-	&& make -s up
+	&& sleep 10 \
+	&& make -s db_import \
+	&& make -s up_react
 
 # Starts this project's containers, or create them if the doesn't exist already
 up:
 	@cd infrastructure/${ENVIRONMENT} \
-	&& docker-compose up -d \
-	&& cd ../../ \
-	&& make -s up_react
+	&& docker-compose up -d
 
 # Stops this project's containers
 stop:
@@ -29,6 +30,10 @@ reload:
 	@cd infrastructure/${ENVIRONMENT} \
 	&& docker-compose stop \
 	&& docker-compose up -d
+
+npm_install:
+	@cd frontend \
+	&& npm install;
 
 # Starts the React project with dev server
 up_react:
