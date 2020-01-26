@@ -11,6 +11,7 @@ install:
 	&& make npm_install \
 	&& (cd infrastructure/${ENVIRONMENT}; docker-compose up -d) \
 	&& make -s setup_files_folder \
+	&& sleep 10 \
 	&& make -s db_import \
 	&& make -s up_react
 
