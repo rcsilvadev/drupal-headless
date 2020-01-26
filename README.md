@@ -37,7 +37,7 @@ make up
 
 There are other commands in the /Makefile, so feel free to explore it.
 
-### Testing
+## Testing
 
 After running **make install** or **make up** A web page will pop up with the React site (http://localhost:3000/). If you want to access the Drupal CMS to manage contents, open the Drupal site address in another tab (http://drupalheadless.localdomain).
 
@@ -46,3 +46,5 @@ The default Drupal admin credentials are:
 **User:** admin | **Pass:** admin
 
 ## Have fun!
+
+Feel free to contribute, use, and modify it!
