@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+  backend:
+    driver: bridge
+
+services:
+  nginx:
+    build: ./containers/nginx
+    container_name: drupalheadless_nginx
+    ports:
+    - '80:80'
+    volumes:
+    - ../../backend/web:/var/www/web
+    - ../../backend/vendor:/var/www/vendor
+    - ../../backend/config:/var/www/config
+    networks:
+    - backend
+    depends_on:
+    - php
+
+  php:
+    build: ./containers/php
+    container_name: drupalheadless_php
+    volumes:
+    - ../../backend/web:/var/www/web
+    - ../../backend/vendor:/var/www/vendor
+    - ../../backend/config:/var/www/config
+    networks:
+    - backend
+
+  mysql:
+    build: ./containers/mysql
+    container_name: drupalheadless_mysql
+    ports:
+    - "33066:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=gi13ngQE!s
+      - MYSQL_DATABASE=drupalheadless
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=23gnnNXs@
+    volumes:
+    - ../../backend/datadir:/var/lib/mysql
+    - ./containers/mysql/conf:/etc/mysql/conf.d
+    - ../../backend/backups:/backups
+    networks:
+    - backend
